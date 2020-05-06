@@ -8,7 +8,31 @@ const counter = (state = 0, action) => {
     return state
 }
 
-const { createStore } = Redux
+const createStore = (reducer) => {
+    let state
+    let subscriptions = []
+
+    const dispatch = (action) => {
+        state = reducer(state, action)
+        subscriptions.forEach((f) => f())
+    }
+
+    const subscribe = (func) => {
+        subscriptions.push(func)
+        return () => {
+            subscriptions = subscriptions.filter((f) => f !== func)
+        }
+    }
+
+    dispatch({})
+
+    return {
+        getState: () => state,
+        dispatch,
+        subscribe
+    }
+}
+
 const store = createStore(counter)
 
 const $counter = document.querySelector('[data-js="counter"]')
@@ -26,6 +50,15 @@ function increment() {
     store.dispatch({ type: 'INCREMENT' })
 }
 
-store.subscribe(() => {
+function render() {
+    
     $counter.textContent = store.getState()
-})
+}
+
+const unsubscribe = store.subscribe(render)
+render()
+
+setTimeout(() => {
+    console.log('unsubscribe')
+    unsubscribe()
+}, 5000)
