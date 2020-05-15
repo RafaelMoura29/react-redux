@@ -6,5 +6,7 @@ export default (state, action) => {
         return state.concat(0)
       case 'REMOVE_COUNTER':
         return state.filter((_, index) => index !== action.index )
+      case 'INCREMENT':
+        return state.map((counter, index) => index === action.index ? counter + 1 : counter)
     }
 }
