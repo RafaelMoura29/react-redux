@@ -36,6 +36,13 @@ it('Should remove a counter', () => {
   expect(counters(before, action)).to.be.deep.equal(after)
 })
 
+it('Should increment a counter', () => {
+  const before = deepFreeze([0,0])
+  const action = deepFreeze({type: 'INCREMENT', index: 0})
+  const after = [1, 0]
+  expect(counters(before, action)).to.be.deep.equal(after)
+})
+
 it('Should increment a counter again', () => {
   const before = deepFreeze([1,0])
   const action = deepFreeze({type: 'INCREMENT', index: 1})
@@ -43,4 +50,16 @@ it('Should increment a counter again', () => {
   expect(counters(before, action)).to.be.deep.equal(after)
 })
 
+it('Should decrement a counter ', () => {
+  const before = deepFreeze([0,2,1])
+  const action = deepFreeze({type: 'DECREMENT', index: 2})
+  const after = [0, 2, 0]
+  expect(counters(before, action)).to.be.deep.equal(after)
+})
 
+it('Should decrement a counter again', () => {
+  const before = deepFreeze([0,2,0])
+  const action = deepFreeze({type: 'DECREMENT', index: 1})
+  const after = [0, 1, 0]
+  expect(counters(before, action)).to.be.deep.equal(after)
+})
