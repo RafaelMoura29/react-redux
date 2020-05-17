@@ -1,3 +1,3 @@
 # Todo List
 
-Implementação inicial (só marcação)
+Reducer para _todos_
